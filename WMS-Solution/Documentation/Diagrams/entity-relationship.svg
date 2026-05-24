@@ -1,0 +1,97 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 850 560'>
+  <rect width='850' height='560' fill='#f8f9fa' rx='8'/>
+  <text x='425' y='35' text-anchor='middle' font-family='Arial,sans-serif' font-size='18' font-weight='bold' fill='#1F4E79'>ENTITY RELATIONSHIP DIAGRAM</text>
+
+  <!-- Employees -->
+  <rect x='30' y='65' width='180' height='130' rx='6' fill='#E3F2FD' stroke='#1976D2' stroke-width='1.5'/>
+  <text x='120' y='85' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#1976D2'>Employees</text>
+  <line x1='40' y1='95' x2='200' y2='95' stroke='#1976D2' stroke-width='0.5'/>
+  <text x='40' y='112' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK EmployeeId (int)</text>
+  <text x='40' y='126' font-family='Arial,sans-serif' font-size='9' fill='#333'>FirstName, LastName, Email</text>
+  <text x='40' y='140' font-family='Arial,sans-serif' font-size='9' fill='#333'>PhoneNumber, Gender, DOB</text>
+  <text x='40' y='154' font-family='Arial,sans-serif' font-size='9' fill='#333'>DOJ, Status, CreatedOn</text>
+  <text x='40' y='168' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK DepartmentId → Departments</text>
+  <text x='40' y='182' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK RoleId → Roles</text>
+
+  <!-- Attendance -->
+  <rect x='270' y='65' width='180' height='115' rx='6' fill='#FFF3E0' stroke='#F57C00' stroke-width='1.5'/>
+  <text x='360' y='85' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#F57C00'>Attendances</text>
+  <line x1='280' y1='95' x2='440' y2='95' stroke='#F57C00' stroke-width='0.5'/>
+  <text x='280' y='112' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK AttendanceId (int)</text>
+  <text x='280' y='126' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK EmpId → Employees</text>
+  <text x='280' y='140' font-family='Arial,sans-serif' font-size='9' fill='#333'>CheckIn, CheckOut</text>
+  <text x='280' y='154' font-family='Arial,sans-serif' font-size='9' fill='#333'>TotalHours, WorkMode</text>
+  <text x='280' y='168' font-family='Arial,sans-serif' font-size='9' fill='#333'>AttendanceDate</text>
+
+  <!-- Leaves -->
+  <rect x='510' y='65' width='180' height='115' rx='6' fill='#E8EAF6' stroke='#5C6BC0' stroke-width='1.5'/>
+  <text x='600' y='85' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#5C6BC0'>Leaves</text>
+  <line x1='520' y1='95' x2='680' y2='95' stroke='#5C6BC0' stroke-width='0.5'/>
+  <text x='520' y='112' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK LeaveId (int)</text>
+  <text x='520' y='126' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK EmpId → Employees</text>
+  <text x='520' y='140' font-family='Arial,sans-serif' font-size='9' fill='#333'>LeaveType, Reason, Status</text>
+  <text x='520' y='154' font-family='Arial,sans-serif' font-size='9' fill='#333'>FromDate, ToDate</text>
+  <text x='520' y='168' font-family='Arial,sans-serif' font-size='9' fill='#333'>AppliedOn, ApprovedBy</text>
+
+  <!-- Relationships row 1 -->
+  <line x1='210' y1='125' x2='265' y2='125' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+  <line x1='450' y1='125' x2='505' y2='125' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+
+  <!-- Projects -->
+  <rect x='30' y='245' width='180' height='115' rx='6' fill='#FFEBEE' stroke='#C62828' stroke-width='1.5'/>
+  <text x='120' y='265' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#C62828'>Projects</text>
+  <line x1='40' y1='275' x2='200' y2='275' stroke='#C62828' stroke-width='0.5'/>
+  <text x='40' y='292' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK ProjectId (int)</text>
+  <text x='40' y='306' font-family='Arial,sans-serif' font-size='9' fill='#333'>ProjectName, Description</text>
+  <text x='40' y='320' font-family='Arial,sans-serif' font-size='9' fill='#333'>StartDate, EndDate</text>
+  <text x='40' y='334' font-family='Arial,sans-serif' font-size='9' fill='#333'>Status</text>
+  <text x='40' y='348' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK ClientId → Clients</text>
+
+  <!-- Allocations -->
+  <rect x='270' y='245' width='180' height='130' rx='6' fill='#E8F5E9' stroke='#388E3C' stroke-width='1.5'/>
+  <text x='360' y='265' text-anchor='middle' font-family='Arial,sans-serif' font-size='11' font-weight='bold' fill='#388E3C'>EmployeeProject-</text>
+  <text x='360' y='280' text-anchor='middle' font-family='Arial,sans-serif' font-size='11' font-weight='bold' fill='#388E3C'>Allocations</text>
+  <line x1='280' y1='290' x2='440' y2='290' stroke='#388E3C' stroke-width='0.5'/>
+  <text x='280' y='307' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK AllocationId (int)</text>
+  <text x='280' y='321' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK EmpId → Employees</text>
+  <text x='280' y='335' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK ProjectId → Projects</text>
+  <text x='280' y='349' font-family='Arial,sans-serif' font-size='9' fill='#333'>AssignedOn, Status</text>
+  <text x='280' y='363' font-family='Arial,sans-serif' font-size='9' fill='#333'>CreatedBy, CreateDate</text>
+
+  <!-- Clients -->
+  <rect x='510' y='245' width='180' height='100' rx='6' fill='#F3E5F5' stroke='#6A1B9A' stroke-width='1.5'/>
+  <text x='600' y='265' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#6A1B9A'>Clients</text>
+  <line x1='520' y1='275' x2='680' y2='275' stroke='#6A1B9A' stroke-width='0.5'/>
+  <text x='520' y='292' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK ClientId (int)</text>
+  <text x='520' y='306' font-family='Arial,sans-serif' font-size='9' fill='#333'>ClientName, Address</text>
+  <text x='520' y='320' font-family='Arial,sans-serif' font-size='9' fill='#333'>Phone, Location, Status</text>
+
+  <!-- Relationships row 2 -->
+  <line x1='210' y1='300' x2='265' y2='300' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+  <line x1='450' y1='300' x2='505' y2='300' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+
+  <!-- Users & Roles row 3 -->
+  <rect x='30' y='410' width='180' height='100' rx='6' fill='#FCE4EC' stroke='#E91E63' stroke-width='1.5'/>
+  <text x='120' y='430' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#E91E63'>UserLogins</text>
+  <line x1='40' y1='440' x2='200' y2='440' stroke='#E91E63' stroke-width='0.5'/>
+  <text x='40' y='457' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK UserId (int)</text>
+  <text x='40' y='471' font-family='Arial,sans-serif' font-size='9' fill='#333'>Username, PasswordHash</text>
+  <text x='40' y='485' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK EmployeeId → Employees</text>
+  <text x='40' y='499' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK RoleId → Roles</text>
+
+  <rect x='270' y='410' width='180' height='85' rx='6' fill='#E0F7FA' stroke='#00838F' stroke-width='1.5'/>
+  <text x='360' y='430' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#00838F'>Roles</text>
+  <line x1='280' y1='440' x2='440' y2='440' stroke='#00838F' stroke-width='0.5'/>
+  <text x='280' y='457' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK RoleId (int)</text>
+  <text x='280' y='471' font-family='Arial,sans-serif' font-size='9' fill='#333'>RoleName, Description</text>
+
+  <rect x='510' y='410' width='180' height='85' rx='6' fill='#FFF8E1' stroke='#F9A825' stroke-width='1.5'/>
+  <text x='600' y='430' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#F9A825'>Departments</text>
+  <line x1='520' y1='440' x2='680' y2='440' stroke='#F9A825' stroke-width='0.5'/>
+  <text x='520' y='457' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK DepartmentId (int)</text>
+  <text x='520' y='471' font-family='Arial,sans-serif' font-size='9' fill='#333'>DepartmentName, Description</text>
+
+  <!-- Relationships row 3 -->
+  <line x1='120' y1='360' x2='120' y2='405' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+  <line x1='210' y1='450' x2='265' y2='450' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+</svg>

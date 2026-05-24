@@ -1,0 +1,36 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 700 500'>
+  <rect width='700' height='500' fill='#f8f9fa' rx='8'/>
+  <text x='350' y='35' text-anchor='middle' font-family='Arial,sans-serif' font-size='18' font-weight='bold' fill='#1F4E79'>MODULE INTERACTION DIAGRAM</text>
+  <rect x='260' y='60' width='180' height='50' rx='25' fill='#1976D2'/>
+  <text x='350' y='90' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>AUTH MODULE</text>
+  <rect x='30' y='170' width='160' height='50' rx='6' fill='#388E3C'/>
+  <text x='110' y='200' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>EMPLOYEE MODULE</text>
+  <line x1='210' y1='185' x2='255' y2='110' stroke='#666' stroke-width='1.5' stroke-dasharray='4'/>
+  <polygon points='252,115 260,108 248,108' fill='#666'/>
+  <rect x='270' y='170' width='160' height='50' rx='6' fill='#F57C00'/>
+  <text x='350' y='200' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>ATTENDANCE MODULE</text>
+  <line x1='310' y1='120' x2='320' y2='165' stroke='#666' stroke-width='1.5'/>
+  <polygon points='317,162 323,170 325,160' fill='#666'/>
+  <rect x='510' y='170' width='160' height='50' rx='6' fill='#5C6BC0'/>
+  <text x='590' y='200' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>LEAVE MODULE</text>
+  <line x1='440' y1='185' x2='505' y2='110' stroke='#666' stroke-width='1.5' stroke-dasharray='4'/>
+  <polygon points='502,115 510,108 498,108' fill='#666'/>
+  <rect x='30' y='280' width='160' height='50' rx='6' fill='#C62828'/>
+  <text x='110' y='310' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>PROJECT MODULE</text>
+  <line x1='190' y1='300' x2='240' y2='300' stroke='#666' stroke-width='1.5'/>
+  <polygon points='237,297 245,300 237,303' fill='#666'/>
+  <rect x='270' y='280' width='160' height='50' rx='6' fill='#6A1B9A'/>
+  <text x='350' y='310' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>DASHBOARD MODULE</text>
+  <line x1='350' y1='230' x2='350' y2='275' stroke='#666' stroke-width='1.5'/>
+  <polygon points='347,272 353,280 357,270' fill='#666'/>
+  <line x1='270' y1='305' x2='205' y2='305' stroke='#666' stroke-width='1' stroke-dasharray='3'/>
+  <polygon points='208,302 200,305 208,308' fill='#666'/>
+  <rect x='510' y='280' width='160' height='50' rx='6' fill='#2E7D32'/>
+  <text x='590' y='310' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>DEPARTMENT MODULE</text>
+  <line x1='590' y1='305' x2='350' y2='400' stroke='#999' stroke-width='1' stroke-dasharray='3'/>
+  <rect x='200' y='400' width='300' height='55' rx='8' fill='#455A64'/>
+  <text x='350' y='425' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>SQL SERVER DATABASE</text>
+  <text x='350' y='442' text-anchor='middle' font-family='Arial,sans-serif' font-size='10' fill='#cfd8dc'>Shared Data Store for All Modules</text>
+  <line x1='190' y1='305' x2='350' y2='400' stroke='#999' stroke-width='1' stroke-dasharray='3'/>
+  <line x1='350' y1='330' x2='350' y2='395' stroke='#999' stroke-width='1' stroke-dasharray='3'/>
+</svg>

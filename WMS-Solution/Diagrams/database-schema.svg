@@ -1,0 +1,75 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 750 520'>
+  <rect width='750' height='520' fill='#f8f9fa' rx='8'/>
+  <text x='375' y='35' text-anchor='middle' font-family='Arial,sans-serif' font-size='18' font-weight='bold' fill='#1F4E79'>DATABASE SCHEMA (ENTITIES &amp; RELATIONSHIPS)</text>
+  <rect x='30' y='65' width='180' height='120' rx='6' fill='#E3F2FD' stroke='#1976D2' stroke-width='1.5'/>
+  <text x='120' y='85' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#1976D2'>Employees</text>
+  <line x1='40' y1='95' x2='200' y2='95' stroke='#1976D2' stroke-width='0.5'/>
+  <text x='40' y='112' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK EmployeeId</text>
+  <text x='40' y='126' font-family='Arial,sans-serif' font-size='9' fill='#333'>FirstName, LastName</text>
+  <text x='40' y='140' font-family='Arial,sans-serif' font-size='9' fill='#333'>Email, PhoneNumber</text>
+  <text x='40' y='154' font-family='Arial,sans-serif' font-size='9' fill='#333'>Gender, DOB, DOJ</text>
+  <text x='40' y='168' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK DepartmentId</text>
+  <text x='40' y='182' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK RoleId, Status</text>
+  <rect x='270' y='65' width='180' height='110' rx='6' fill='#FFF3E0' stroke='#F57C00' stroke-width='1.5'/>
+  <text x='360' y='85' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#F57C00'>Attendance</text>
+  <line x1='280' y1='95' x2='440' y2='95' stroke='#F57C00' stroke-width='0.5'/>
+  <text x='280' y='112' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK AttendanceId</text>
+  <text x='280' y='126' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK EmpId</text>
+  <text x='280' y='140' font-family='Arial,sans-serif' font-size='9' fill='#333'>CheckIn, CheckOut</text>
+  <text x='280' y='154' font-family='Arial,sans-serif' font-size='9' fill='#333'>TotalHours, WorkMode</text>
+  <text x='280' y='168' font-family='Arial,sans-serif' font-size='9' fill='#333'>AttendanceDate</text>
+  <rect x='510' y='65' width='180' height='110' rx='6' fill='#E8EAF6' stroke='#5C6BC0' stroke-width='1.5'/>
+  <text x='600' y='85' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#5C6BC0'>Leaves</text>
+  <line x1='520' y1='95' x2='680' y2='95' stroke='#5C6BC0' stroke-width='0.5'/>
+  <text x='520' y='112' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK LeaveId</text>
+  <text x='520' y='126' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK EmpId</text>
+  <text x='520' y='140' font-family='Arial,sans-serif' font-size='9' fill='#333'>LeaveType, Reason</text>
+  <text x='520' y='154' font-family='Arial,sans-serif' font-size='9' fill='#333'>FromDate, ToDate</text>
+  <text x='520' y='168' font-family='Arial,sans-serif' font-size='9' fill='#333'>Status, AppliedOn</text>
+  <line x1='210' y1='120' x2='265' y2='120' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+  <line x1='450' y1='120' x2='505' y2='120' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+  <rect x='30' y='230' width='180' height='110' rx='6' fill='#FFEBEE' stroke='#C62828' stroke-width='1.5'/>
+  <text x='120' y='250' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#C62828'>Projects</text>
+  <line x1='40' y1='260' x2='200' y2='260' stroke='#C62828' stroke-width='0.5'/>
+  <text x='40' y='277' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK ProjectId</text>
+  <text x='40' y='291' font-family='Arial,sans-serif' font-size='9' fill='#333'>ProjectName, Description</text>
+  <text x='40' y='305' font-family='Arial,sans-serif' font-size='9' fill='#333'>StartDate, EndDate</text>
+  <text x='40' y='319' font-family='Arial,sans-serif' font-size='9' fill='#333'>Status</text>
+  <text x='40' y='333' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK ClientId</text>
+  <rect x='270' y='230' width='180' height='110' rx='6' fill='#E8F5E9' stroke='#388E3C' stroke-width='1.5'/>
+  <text x='360' y='250' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#388E3C'>Allocations</text>
+  <line x1='280' y1='260' x2='440' y2='260' stroke='#388E3C' stroke-width='0.5'/>
+  <text x='280' y='277' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK AllocationId</text>
+  <text x='280' y='291' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK EmpId</text>
+  <text x='280' y='305' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK ProjectId</text>
+  <text x='280' y='319' font-family='Arial,sans-serif' font-size='9' fill='#333'>AssignedOn, Status</text>
+  <text x='280' y='333' font-family='Arial,sans-serif' font-size='9' fill='#333'>CreatedBy, CreateDate</text>
+  <rect x='510' y='230' width='180' height='95' rx='6' fill='#F3E5F5' stroke='#6A1B9A' stroke-width='1.5'/>
+  <text x='600' y='250' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#6A1B9A'>Clients</text>
+  <line x1='520' y1='260' x2='680' y2='260' stroke='#6A1B9A' stroke-width='0.5'/>
+  <text x='520' y='277' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK ClientId</text>
+  <text x='520' y='291' font-family='Arial,sans-serif' font-size='9' fill='#333'>ClientName, Address</text>
+  <text x='520' y='305' font-family='Arial,sans-serif' font-size='9' fill='#333'>Phone, Location, Status</text>
+  <line x1='210' y1='285' x2='265' y2='285' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+  <line x1='450' y1='285' x2='505' y2='285' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+  <rect x='30' y='390' width='180' height='95' rx='6' fill='#FCE4EC' stroke='#E91E63' stroke-width='1.5'/>
+  <text x='120' y='410' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#E91E63'>UserLogins</text>
+  <line x1='40' y1='420' x2='200' y2='420' stroke='#E91E63' stroke-width='0.5'/>
+  <text x='40' y='437' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK UserId</text>
+  <text x='40' y='451' font-family='Arial,sans-serif' font-size='9' fill='#333'>Username, PasswordHash</text>
+  <text x='40' y='465' font-family='Arial,sans-serif' font-size='9' fill='#666'>FK EmployeeId, FK RoleId</text>
+  <text x='40' y='479' font-family='Arial,sans-serif' font-size='9' fill='#333'>LastLogin</text>
+  <rect x='270' y='390' width='180' height='80' rx='6' fill='#E0F7FA' stroke='#00838F' stroke-width='1.5'/>
+  <text x='360' y='410' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#00838F'>Roles</text>
+  <line x1='280' y1='420' x2='440' y2='420' stroke='#00838F' stroke-width='0.5'/>
+  <text x='280' y='437' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK RoleId</text>
+  <text x='280' y='451' font-family='Arial,sans-serif' font-size='9' fill='#333'>RoleName, Description</text>
+  <rect x='510' y='390' width='180' height='80' rx='6' fill='#FFF8E1' stroke='#F9A825' stroke-width='1.5'/>
+  <text x='600' y='410' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='bold' fill='#F9A825'>Departments</text>
+  <line x1='520' y1='420' x2='680' y2='420' stroke='#F9A825' stroke-width='0.5'/>
+  <text x='520' y='437' font-family='Arial,sans-serif' font-size='9' fill='#333'>PK DepartmentId</text>
+  <text x='520' y='451' font-family='Arial,sans-serif' font-size='9' fill='#333'>DepartmentName, Description</text>
+  <line x1='120' y1='340' x2='120' y2='385' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+  <line x1='360' y1='340' x2='360' y2='385' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+  <line x1='120' y1='185' x2='120' y2='225' stroke='#999' stroke-width='1' stroke-dasharray='4'/>
+</svg>

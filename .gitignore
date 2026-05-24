@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Angular
+wms-frontend/node_modules/
+wms-frontend/dist/
+
+# .NET
+**/bin/
+**/obj/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log

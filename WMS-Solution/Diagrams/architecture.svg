@@ -1,0 +1,28 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 480'>
+  <rect width='600' height='480' fill='#f8f9fa' rx='8'/>
+  <text x='300' y='35' text-anchor='middle' font-family='Arial,sans-serif' font-size='18' font-weight='bold' fill='#1F4E79'>SYSTEM ARCHITECTURE</text>
+  <rect x='100' y='60' width='400' height='65' rx='6' fill='#1976D2'/>
+  <text x='300' y='88' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>PRESENTATION LAYER</text>
+  <text x='300' y='108' text-anchor='middle' font-family='Arial,sans-serif' font-size='11' fill='#e3f2fd'>Angular 18 SPA  |  Angular Material UI  |  RxJS  |  Chart.js</text>
+  <line x1='300' y1='125' x2='300' y2='155' stroke='#666' stroke-width='2'/>
+  <polygon points='295,152 300,162 305,152' fill='#666'/>
+  <rect x='100' y='165' width='400' height='65' rx='6' fill='#388E3C'/>
+  <text x='300' y='193' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>API GATEWAY / CONTROLLERS</text>
+  <text x='300' y='213' text-anchor='middle' font-family='Arial,sans-serif' font-size='11' fill='#e8f5e9'>ASP.NET Core Web API  |  JWT Auth Middleware  |  Exception Handling</text>
+  <line x1='300' y1='230' x2='300' y2='260' stroke='#666' stroke-width='2'/>
+  <polygon points='295,257 300,267 305,257' fill='#666'/>
+  <rect x='100' y='270' width='400' height='65' rx='6' fill='#F57C00'/>
+  <text x='300' y='298' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>APPLICATION / SERVICE LAYER</text>
+  <text x='300' y='318' text-anchor='middle' font-family='Arial,sans-serif' font-size='11' fill='#fff3e0'>AuthService | EmployeeService | AttendanceService | LeaveService | ProjectService | DashboardService</text>
+  <line x1='300' y1='335' x2='300' y2='365' stroke='#666' stroke-width='2'/>
+  <polygon points='295,362 300,372 305,362' fill='#666'/>
+  <rect x='100' y='375' width='400' height='65' rx='6' fill='#5C6BC0'/>
+  <text x='300' y='403' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='#fff'>DATA ACCESS / REPOSITORY LAYER</text>
+  <text x='300' y='423' text-anchor='middle' font-family='Arial,sans-serif' font-size='11' fill='#e8eaf6'>GenericRepository&lt;T&gt;  |  UserRepository  |  Entity Framework Core</text>
+  <line x1='300' y1='410' x2='300' y2='442' stroke='#666' stroke-width='2'/>
+  <polygon points='295,439 300,449 305,439' fill='#666'/>
+  <ellipse cx='300' cy='468' rx='50' ry='10' fill='#455A64'/>
+  <rect x='250' y='445' width='100' height='23' fill='#455A64'/>
+  <ellipse cx='300' cy='445' rx='50' ry='10' fill='#546E7A'/>
+  <text x='300' y='460' text-anchor='middle' font-family='Arial,sans-serif' font-size='10' font-weight='bold' fill='#fff'>SQL Server</text>
+</svg>
