@@ -1,0 +1,98 @@
+# Azure DevOps Pipeline for WMS (Workforce Management System)
+# Trigger: push / PR to main branch
+# Stages: Backend (.NET 10) → Frontend (Angular)
+
+trigger:
+  branches:
+    include:
+      - main
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: ubuntu-latest
+
+# ─────────────────────────────────────────────────────
+# BACKEND STAGE
+# ─────────────────────────────────────────────────────
+stages:
+  - stage: Backend
+    displayName: 🏗 Backend Build & Test
+    jobs:
+      - job: BuildBackend
+        displayName: Build and test .NET solution
+        steps:
+          - task: UseDotNet@2
+            displayName: Install .NET SDK 10.x
+            inputs:
+              packageType: sdk
+              version: '10.0.x'
+              includePreviewVersions: true
+
+          - script: |
+              cd WMS-Solution
+              dotnet restore
+            displayName: Restore NuGet packages
+
+          - script: |
+              cd WMS-Solution
+              dotnet build --configuration Release --no-restore
+            displayName: Build solution (Release)
+
+          - script: |
+              cd WMS-Solution
+              dotnet test --configuration Release --no-build --logger trx
+            displayName: Run unit tests
+
+          - task: PublishTestResults@2
+            displayName: Publish test results
+            condition: succeededOrFailed()
+            inputs:
+              testRunner: VSTest
+              testResultsFiles: 'WMS-Solution/**/*.trx'
+              mergeTestResults: true
+
+          - script: |
+              cd WMS-Solution
+              dotnet publish WMS.API/WMS.API.csproj --configuration Release --output $(Build.ArtifactStagingDirectory)/backend --no-build
+            displayName: Publish backend artifacts
+
+          - task: PublishBuildArtifacts@1
+            displayName: Upload backend artifacts
+            inputs:
+              PathtoPublish: $(Build.ArtifactStagingDirectory)/backend
+              ArtifactName: backend-drop
+
+  # ─────────────────────────────────────────────────────
+  # FRONTEND STAGE
+  # ─────────────────────────────────────────────────────
+  - stage: Frontend
+    displayName: 🎨 Frontend Build
+    dependsOn: []
+    jobs:
+      - job: BuildFrontend
+        displayName: Build Angular application
+        steps:
+          - task: NodeTool@0
+            displayName: Install Node.js 22.x
+            inputs:
+              versionSpec: 22.x
+
+          - script: |
+              cd wms-frontend
+              npm install
+            displayName: Install npm dependencies
+
+          - script: |
+              cd wms-frontend
+              npm run build
+            displayName: Build Angular app (production)
+
+          - task: PublishBuildArtifacts@1
+            displayName: Upload frontend artifacts
+            inputs:
+              PathtoPublish: wms-frontend/dist
+              ArtifactName: frontend-drop
