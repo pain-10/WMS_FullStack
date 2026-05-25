@@ -119,4 +119,4 @@ stages:
             inputs:
               azureSubscription: 'AzureConnection'
               appName: 'wms-api-mrunal'
-              package: '$(Pipeline.Workspace)/backend-drop/**/*'
+              package: '$(Pipeline.Workspace)/backend-drop/*.zip'
