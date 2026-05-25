@@ -76,10 +76,10 @@ stages:
       - job: BuildFrontend
         displayName: Build Angular application
         steps:
-          - task: NodeTool@0
+          - task: UseNode@1
             displayName: Install Node.js 22.x
             inputs:
-              versionSpec: 22.x
+              version: '22.x'
 
           - script: |
               cd wms-frontend
