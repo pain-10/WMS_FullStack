@@ -1,6 +1,6 @@
 # Azure DevOps Pipeline for WMS (Workforce Management System)
 # Trigger: push / PR to main branch
-# Stages: Backend (.NET 10) → Frontend (Angular) → Backend Deployment
+# Stages: Backend (.NET 10) → Frontend (Angular) → Deploy Backend → Deploy Frontend
 
 trigger:
   branches:
@@ -115,6 +115,30 @@ stages:
       inputs:
         PathtoPublish: 'wms-frontend/dist/wms-frontend/browser'
         ArtifactName: frontend-drop
+
+
+# ─────────────────────────────────────────────────────
+# FRONTEND DEPLOYMENT STAGE
+# ─────────────────────────────────────────────────────
+- stage: DeployFrontend
+  displayName: 🌐 Deploy Frontend
+  dependsOn: Frontend
+
+  jobs:
+  - job: DeployApp
+    displayName: Deploy Angular App
+
+    steps:
+
+    - download: current
+      artifact: frontend-drop
+
+    - task: AzureWebApp@1
+      displayName: Deploy to wms-webapp
+      inputs:
+        azureSubscription: 'AzureConnection'
+        appName: 'wms-webapp'
+        package: '$(Pipeline.Workspace)/frontend-drop'
 
 
 # ─────────────────────────────────────────────────────
