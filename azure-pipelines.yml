@@ -113,7 +113,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: Upload frontend artifacts
       inputs:
-        PathtoPublish: 'wms-frontend/dist'
+        PathtoPublish: 'wms-frontend/dist/wms-frontend/browser'
         ArtifactName: frontend-drop
 
 
