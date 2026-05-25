@@ -192,13 +192,14 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 
-// Seed only for development
-if (app.Environment.IsDevelopment())
+// Apply pending migrations and seed data (idempotent — safe for all environments)
+using (var scope = app.Services.CreateScope())
 {
-    await SeedData
-        .SeedDevelopmentDataAsync(
-            app.Services);
+    var db = scope.ServiceProvider.GetRequiredService<WmsDbContext>();
+    await db.Database.MigrateAsync();
 }
+
+await SeedData.SeedDevelopmentDataAsync(app.Services);
 
 
 // Global exception middleware
