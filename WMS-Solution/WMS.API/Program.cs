@@ -13,6 +13,7 @@ using WMS.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Register DbContext
 builder.Services.AddDbContext<WmsDbContext>(options =>
     options.UseSqlServer(
@@ -21,9 +22,7 @@ builder.Services.AddDbContext<WmsDbContext>(options =>
 
 
 // Register repositories
-builder.Services.AddScoped<
-    IUserRepository,
-    UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped(
     typeof(IGenericRepository<>),
@@ -31,61 +30,20 @@ builder.Services.AddScoped(
 
 
 // Register services
-builder.Services.AddScoped<
-    IAuthService,
-    AuthService>();
-
-builder.Services.AddScoped<
-    IJwtService,
-    JwtService>();
-
-builder.Services.AddScoped<
-    IEmployeeService,
-    EmployeeService>();
-
-builder.Services.AddScoped<
-    IAttendanceService,
-    AttendanceService>();
-
-builder.Services.AddScoped<
-    ILeaveService,
-    LeaveService>();
-
-builder.Services.AddScoped<
-    IAnnouncementService,
-    AnnouncementService>();
-
-builder.Services.AddScoped<
-    IClientService,
-    ClientService>();
-
-builder.Services.AddScoped<
-    IProjectService,
-    ProjectService>();
-
-builder.Services.AddScoped<
-    IAllocationService,
-    AllocationService>();
-
-builder.Services.AddScoped<
-    IAuditService,
-    AuditService>();
-
-builder.Services.AddScoped<
-    IDashboardService,
-    DashboardService>();
-
-builder.Services.AddScoped<
-    IDepartmentService,
-    DepartmentService>();
-
-builder.Services.AddScoped<
-    INotificationService,
-    NotificationService>();
-
-builder.Services.AddScoped<
-    IReportService,
-    ReportService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddScoped<ILeaveService, LeaveService>();
+builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
+builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IAllocationService, AllocationService>();
+builder.Services.AddScoped<IAuditService, AuditService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
 
 // Controllers
@@ -109,7 +67,10 @@ builder.Services.AddCors(options =>
             {
                 policy.SetIsOriginAllowed(origin =>
                 {
-                    if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                    if (!Uri.TryCreate(
+                        origin,
+                        UriKind.Absolute,
+                        out var uri))
                         return false;
 
                     return uri.Host.Equals(
@@ -123,6 +84,7 @@ builder.Services.AddCors(options =>
             }
             else
             {
+                // Azure deployment fix
                 if (allowedFrontendOrigins.Length > 0)
                 {
                     policy.WithOrigins(
@@ -130,8 +92,8 @@ builder.Services.AddCors(options =>
                 }
                 else
                 {
-                    throw new InvalidOperationException(
-                        "Frontend:AllowedOrigins must contain at least one origin.");
+                    // Temporary for deployment
+                    policy.AllowAnyOrigin();
                 }
             }
 
@@ -170,51 +132,67 @@ builder.Services
                 jwtSettings["Audience"],
 
             IssuerSigningKey =
-                new SymmetricSecurityKey(
-                    key)
+                new SymmetricSecurityKey(key)
         };
 });
 
 
 
-// Swagger + JWT
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WMS API", Version = "v1" });
-
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT"
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+    c.SwaggerDoc(
+        "v1",
+        new OpenApiInfo
         {
-            new OpenApiSecurityScheme
+            Title = "WMS API",
+            Version = "v1"
+        });
+
+    c.AddSecurityDefinition(
+        "Bearer",
+        new OpenApiSecurityScheme
+        {
+            Description =
+                "JWT Authorization header using Bearer",
+
+            Name = "Authorization",
+
+            In = ParameterLocation.Header,
+
+            Type = SecuritySchemeType.Http,
+
+            Scheme = "bearer",
+
+            BearerFormat = "JWT"
+        });
+
+    c.AddSecurityRequirement(
+        new OpenApiSecurityRequirement
+        {
             {
-                Reference = new OpenApiReference
+                new OpenApiSecurityScheme
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
+                    Reference =
+                        new OpenApiReference
+                        {
+                            Type =
+                                ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                },
+                Array.Empty<string>()
+            }
+        });
 });
 
 
 var app = builder.Build();
 
 
-// Seed development data
+// Seed only for development
 if (app.Environment.IsDevelopment())
 {
     await SeedData
@@ -223,27 +201,21 @@ if (app.Environment.IsDevelopment())
 }
 
 
-
 // Global exception middleware
-app.UseMiddleware<
-    ExceptionMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
+// Enable Swagger in Azure also
+app.UseSwagger();
 
-    app.UseSwaggerUI();
-}
+app.UseSwaggerUI();
 
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
+// HTTPS
+app.UseHttpsRedirection();
 
 
-// CORS before auth
+// CORS
 app.UseCors(
     "FrontendCorsPolicy");
 
@@ -252,7 +224,7 @@ app.UseCors(
 app.UseAuthentication();
 
 
-// Audit middleware
+// Audit Middleware
 app.UseMiddleware<
     AuditMiddleware>();
 
@@ -261,8 +233,7 @@ app.UseMiddleware<
 app.UseAuthorization();
 
 
-// Map controllers
+// Controllers
 app.MapControllers();
 
 app.Run();
-
