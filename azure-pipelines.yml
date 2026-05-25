@@ -102,25 +102,21 @@ stages:
 # BACKEND DEPLOYMENT STAGE
 # ─────────────────────────────────────────────────────
   - stage: DeployBackend
-    displayName: Deploy Backend
+    displayName: 🚀 Deploy Backend
     dependsOn: Backend
 
     jobs:
-      - deployment: DeployAPI
+      - job: DeployAPI
         displayName: Deploy WMS API
-        environment: Production
 
-        strategy:
-          runOnce:
-            deploy:
-              steps:
+        steps:
 
-                - download: current
-                  artifact: backend-drop
+          - download: current
+            artifact: backend-drop
 
-                - task: AzureWebApp@1
-                  displayName: Deploy API to Azure App Service
-                  inputs:
-                    azureSubscription: 'AzureConnection'
-                    appName: 'wms-api-mrunal'
-                    package: '$(Pipeline.Workspace)/backend-drop/**/*'
+          - task: AzureWebApp@1
+            displayName: Deploy API to Azure App Service
+            inputs:
+              azureSubscription: 'AzureConnection'
+              appName: 'wms-api-mrunal'
+              package: '$(Pipeline.Workspace)/backend-drop/**/*'
