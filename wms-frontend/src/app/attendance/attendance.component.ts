@@ -465,6 +465,7 @@ export class AttendanceComponent implements OnInit, AfterViewInit, OnDestroy {
     obs.subscribe({
       next: (data: Attendance[]) => {
         this.attendance = data;
+        this.dataSource.data = data;
         this.todayRecord = data.find(a => a.attendanceDate === this.todayStr) || null;
         if (this.todayRecord) {
           this.selectedWorkMode = this.todayRecord.workMode;

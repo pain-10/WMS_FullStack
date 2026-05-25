@@ -13,6 +13,8 @@ public class AttendanceServiceTests
     private readonly Mock<IGenericRepository<Attendance>> _attendanceRepoMock;
     private readonly Mock<IGenericRepository<Employee>> _employeeRepoMock;
     private readonly AttendanceService _sut;
+    private static readonly TimeZoneInfo IstZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Kolkata");
+    private static DateTime IstNow => TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, IstZone);
 
     public AttendanceServiceTests()
     {
@@ -54,8 +56,8 @@ public class AttendanceServiceTests
         {
             AttendanceId = 1,
             EmpId = 1,
-            CheckIn = DateTime.UtcNow.AddHours(-2),
-            AttendanceDate = DateTime.UtcNow.Date,
+            CheckIn = IstNow.AddHours(-2),
+            AttendanceDate = IstNow.Date,
             WorkMode = "WFO"
         };
 
@@ -72,13 +74,13 @@ public class AttendanceServiceTests
     [Fact]
     public async Task CheckOut_AfterCheckIn_Success()
     {
-        var checkInTime = DateTime.UtcNow.AddHours(-8);
+        var checkInTime = IstNow.AddHours(-8);
         var attendance = new Attendance
         {
             AttendanceId = 1,
             EmpId = 1,
             CheckIn = checkInTime,
-            AttendanceDate = DateTime.UtcNow.Date,
+            AttendanceDate = IstNow.Date,
             WorkMode = "WFO"
         };
 
@@ -111,14 +113,14 @@ public class AttendanceServiceTests
     [Fact]
     public async Task TotalHours_CalculatedCorrectly()
     {
-        var checkInTime = DateTime.UtcNow.AddHours(-8).AddMinutes(-30);
+        var checkInTime = IstNow.AddHours(-8).AddMinutes(-30);
         var attendance = new Attendance
         {
             AttendanceId = 1,
             EmpId = 1,
             CheckIn = checkInTime,
             CheckOut = null,
-            AttendanceDate = DateTime.UtcNow.Date,
+            AttendanceDate = IstNow.Date,
             WorkMode = "WFO"
         };
 

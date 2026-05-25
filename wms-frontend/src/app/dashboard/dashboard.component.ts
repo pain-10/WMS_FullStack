@@ -250,21 +250,14 @@ import { HttpClient } from '@angular/common/http';
         <section class="bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 rounded-3xl p-8 relative overflow-hidden shadow-xl">
           <div class="absolute top-0 right-0 h-64 w-64 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/4"></div>
           <div class="absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-white/5 translate-y-1/2"></div>
-          <div class="relative z-10 grid gap-6 lg:grid-cols-[1.6fr_0.8fr] lg:items-end">
-            <div>
-              <span class="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
-                Admin Dashboard
-              </span>
-              <h1 class="mt-4 text-3xl font-bold text-white">Welcome back, {{ displayName }}!</h1>
-              <p class="mt-3 max-w-2xl text-primary-100">
-                Manage the system with live workforce metrics, charts, and operational controls.
-              </p>
-            </div>
-            <div class="rounded-2xl border border-white/10 bg-white/5 p-4 text-white/90 backdrop-blur">
-              <p class="text-sm text-white/60">System access</p>
-              <p class="mt-1 text-lg font-semibold">Full admin controls</p>
-              <p class="mt-2 text-sm text-white/70">Employee CRUD, project management, client management, announcements, and reports.</p>
-            </div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+              Admin Dashboard
+            </span>
+            <h1 class="mt-4 text-3xl font-bold text-white">Welcome back, {{ displayName }}!</h1>
+            <p class="mt-3 max-w-2xl text-primary-100">
+              Manage the system with live workforce metrics, charts, and operational controls.
+            </p>
           </div>
         </section>
 

@@ -11,6 +11,9 @@ public class AttendanceService : IAttendanceService
 {
     private readonly IGenericRepository<Attendance> _attendanceRepository;
     private readonly IGenericRepository<Employee> _employeeRepository;
+    private static readonly TimeZoneInfo IstZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Kolkata");
+
+    private static DateTime NowIst => TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, IstZone);
 
     public AttendanceService(
         IGenericRepository<Attendance> attendanceRepository,
@@ -28,11 +31,11 @@ public class AttendanceService : IAttendanceService
             throw new ValidationException("Employee not found");
         }
 
+        var istNow = NowIst;
         var attendances = await _attendanceRepository.GetAllAsync();
-        var today = DateTime.UtcNow.Date;
         var hasOpenAttendance = attendances.Any(a =>
             a.EmpId == dto.EmployeeId &&
-            a.AttendanceDate == today &&
+            a.AttendanceDate == istNow.Date &&
             a.CheckOut == null);
 
         if (hasOpenAttendance)
@@ -43,8 +46,8 @@ public class AttendanceService : IAttendanceService
         var attendance = new Attendance
         {
             EmpId = dto.EmployeeId,
-            CheckIn = DateTime.UtcNow,
-            AttendanceDate = DateTime.UtcNow.Date,
+            CheckIn = istNow,
+            AttendanceDate = istNow.Date,
             WorkMode = dto.WorkMode
         };
 
@@ -67,7 +70,8 @@ public class AttendanceService : IAttendanceService
             throw new ValidationException("No active check-in found");
         }
 
-        attendance.CheckOut = DateTime.UtcNow;
+        var istNow = NowIst;
+        attendance.CheckOut = istNow;
         attendance.TotalHours = Math.Round((attendance.CheckOut.Value - attendance.CheckIn).TotalHours, 2);
 
         _attendanceRepository.Update(attendance);
