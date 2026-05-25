@@ -18,20 +18,13 @@ public static class SeedData
 
     private static async Task EnsureRolesExistAsync(WmsDbContext db)
     {
-        var existing = await db.Roles
-            .GroupBy(r => r.RoleName)
-            .Select(g => g.First())
-            .ToListAsync();
-
-        var names = new HashSet<string>(existing.Select(r => r.RoleName), StringComparer.OrdinalIgnoreCase);
-
-        if (!names.Contains("Admin"))
+        if (!await db.Roles.AnyAsync(r => r.RoleName == "Admin"))
             db.Roles.Add(new Role { RoleName = "Admin" });
 
-        if (!names.Contains("Manager"))
+        if (!await db.Roles.AnyAsync(r => r.RoleName == "Manager"))
             db.Roles.Add(new Role { RoleName = "Manager" });
 
-        if (!names.Contains("Employee"))
+        if (!await db.Roles.AnyAsync(r => r.RoleName == "Employee"))
             db.Roles.Add(new Role { RoleName = "Employee" });
 
         await db.SaveChangesAsync();
@@ -39,20 +32,13 @@ public static class SeedData
 
     private static async Task EnsureDepartmentsExistAsync(WmsDbContext db)
     {
-        var existing = await db.Departments
-            .GroupBy(d => d.DepartmentName)
-            .Select(g => g.First())
-            .ToListAsync();
-
-        var names = new HashSet<string>(existing.Select(d => d.DepartmentName), StringComparer.OrdinalIgnoreCase);
-
-        if (!names.Contains("HR"))
+        if (!await db.Departments.AnyAsync(d => d.DepartmentName == "HR"))
             db.Departments.Add(new Department { DepartmentName = "HR", CreatedOn = DateTime.UtcNow });
 
-        if (!names.Contains("IT"))
+        if (!await db.Departments.AnyAsync(d => d.DepartmentName == "IT"))
             db.Departments.Add(new Department { DepartmentName = "IT", CreatedOn = DateTime.UtcNow });
 
-        if (!names.Contains("Finance"))
+        if (!await db.Departments.AnyAsync(d => d.DepartmentName == "Finance"))
             db.Departments.Add(new Department { DepartmentName = "Finance", CreatedOn = DateTime.UtcNow });
 
         await db.SaveChangesAsync();
@@ -60,18 +46,16 @@ public static class SeedData
 
     private static async Task EnsureAdminAccountAsync(WmsDbContext db)
     {
-        var adminLogin = await db.UserLogins.FirstOrDefaultAsync(u => u.Username == "Admin");
-        if (adminLogin != null)
+        if (await db.UserLogins.AnyAsync(u => u.Username == "Admin"))
             return;
 
-        var adminRole = await db.Roles
-            .GroupBy(r => r.RoleName)
-            .Select(g => g.First())
-            .FirstAsync(r => r.RoleName == "Admin");
+        var adminRole = await db.Roles.FirstOrDefaultAsync(r => r.RoleName == "Admin");
+        if (adminRole == null)
+            throw new InvalidOperationException("Admin role not found — EnsureRolesExistAsync must run first.");
 
-        var dept = await db.Departments
-            .OrderBy(d => d.DepartmentId)
-            .FirstAsync();
+        var dept = await db.Departments.FirstOrDefaultAsync();
+        if (dept == null)
+            throw new InvalidOperationException("No departments found — EnsureDepartmentsExistAsync must run first.");
 
         var adminEmployee = await db.Employees.FirstOrDefaultAsync(e => e.Email == "admin@example.com");
         if (adminEmployee == null)
@@ -94,8 +78,7 @@ public static class SeedData
             await db.SaveChangesAsync();
         }
 
-        var userLogin = await db.UserLogins.FirstOrDefaultAsync(u => u.Username == "Admin");
-        if (userLogin == null)
+        if (!await db.UserLogins.AnyAsync(u => u.Username == "Admin"))
         {
             db.UserLogins.Add(new UserLogin
             {
