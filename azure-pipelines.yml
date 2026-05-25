@@ -96,3 +96,31 @@ stages:
             inputs:
               PathtoPublish: wms-frontend/dist
               ArtifactName: frontend-drop
+
+
+# ─────────────────────────────────────────────────────
+# BACKEND DEPLOYMENT STAGE
+# ─────────────────────────────────────────────────────
+  - stage: DeployBackend
+    displayName: Deploy Backend
+    dependsOn: Backend
+
+    jobs:
+      - deployment: DeployAPI
+        displayName: Deploy WMS API
+        environment: Production
+
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+
+                - download: current
+                  artifact: backend-drop
+
+                - task: AzureWebApp@1
+                  displayName: Deploy API to Azure App Service
+                  inputs:
+                    azureSubscription: 'AzureConnection'
+                    appName: 'wms-api-mrunal'
+                    package: '$(Pipeline.Workspace)/backend-drop/**/*'
