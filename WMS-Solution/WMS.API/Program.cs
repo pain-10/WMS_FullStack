@@ -192,14 +192,22 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 
-// Apply pending migrations and seed data (idempotent — safe for all environments)
-using (var scope = app.Services.CreateScope())
+// Apply pending migrations and seed data (non-fatal on failure — app starts regardless)
+try
 {
-    var db = scope.ServiceProvider.GetRequiredService<WmsDbContext>();
-    await db.Database.MigrateAsync();
-}
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<WmsDbContext>();
+        await db.Database.MigrateAsync();
+    }
 
-await SeedData.SeedDevelopmentDataAsync(app.Services);
+    await SeedData.SeedDevelopmentDataAsync(app.Services);
+}
+catch (Exception ex)
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Database migration/seed failed. App started — check connection string, firewall, and database existence.");
+}
 
 
 // Global exception middleware
