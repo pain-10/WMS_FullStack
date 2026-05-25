@@ -1,6 +1,6 @@
 # Azure DevOps Pipeline for WMS (Workforce Management System)
 # Trigger: push / PR to main branch
-# Stages: Backend (.NET 10) → Frontend (Angular)
+# Stages: Backend (.NET 10) → Frontend (Angular) → Backend Deployment
 
 trigger:
   branches:
@@ -15,101 +15,124 @@ pr:
 pool:
   vmImage: ubuntu-latest
 
+stages:
+
 # ─────────────────────────────────────────────────────
 # BACKEND STAGE
 # ─────────────────────────────────────────────────────
-stages:
-  - stage: Backend
-    displayName: 🏗 Backend Build & Test
-    jobs:
-      - job: BuildBackend
-        displayName: Build and test .NET solution
-        steps:
-          - task: UseDotNet@2
-            displayName: Install .NET SDK 10.x
-            inputs:
-              packageType: sdk
-              version: '10.0.x'
-              includePreviewVersions: true
+- stage: Backend
+  displayName: 🏗 Backend Build & Test
 
-          - script: |
-              cd WMS-Solution
-              dotnet restore
-            displayName: Restore NuGet packages
+  jobs:
+  - job: BuildBackend
+    displayName: Build and Test .NET Solution
 
-          - script: |
-              cd WMS-Solution
-              dotnet build --configuration Release --no-restore
-            displayName: Build solution (Release)
+    steps:
 
-          - script: |
-              cd WMS-Solution
-              dotnet test --configuration Release --no-build --logger trx
-            displayName: Run unit tests
+    - task: UseDotNet@2
+      displayName: Install .NET SDK 10.x
+      inputs:
+        packageType: sdk
+        version: '10.0.x'
+        includePreviewVersions: true
 
-          - task: PublishTestResults@2
-            displayName: Publish test results
-            condition: succeededOrFailed()
-            inputs:
-              testRunner: VSTest
-              testResultsFiles: 'WMS-Solution/**/*.trx'
-              mergeTestResults: true
+    - script: |
+        cd WMS-Solution
+        dotnet restore
+      displayName: Restore NuGet packages
 
-          - script: |
-              cd WMS-Solution
-              dotnet publish WMS.API/WMS.API.csproj --configuration Release --output $(Build.ArtifactStagingDirectory)/backend --no-build
-            displayName: Publish backend artifacts
+    - script: |
+        cd WMS-Solution
+        dotnet build --configuration Release --no-restore
+      displayName: Build solution
 
-          - task: PublishBuildArtifacts@1
-            displayName: Upload backend artifacts
-            inputs:
-              PathtoPublish: $(Build.ArtifactStagingDirectory)/backend
-              ArtifactName: backend-drop
+    - script: |
+        cd WMS-Solution
+        dotnet test --configuration Release --no-build --logger trx
+      displayName: Run unit tests
 
-  # ─────────────────────────────────────────────────────
-  # FRONTEND STAGE
-  # ─────────────────────────────────────────────────────
-  - stage: Frontend
-    displayName: 🎨 Frontend Build
-    dependsOn: []
-    jobs:
-      - job: BuildFrontend
-        displayName: Build Angular application
-        steps:
-          - task: UseNode@1
-            displayName: Install Node.js 22.x
-            inputs:
-              version: '22.x'
+    - task: PublishTestResults@2
+      displayName: Publish test results
+      condition: succeededOrFailed()
+      inputs:
+        testRunner: VSTest
+        testResultsFiles: 'WMS-Solution/**/*.trx'
+        mergeTestResults: true
 
-          - script: |
-              cd wms-frontend
-              npm install
-            displayName: Install npm dependencies
+    - script: |
+        cd WMS-Solution
+        dotnet publish WMS.API/WMS.API.csproj \
+        --configuration Release \
+        --output $(Build.ArtifactStagingDirectory)/backend \
+        --no-build
+      displayName: Publish backend files
 
-          - script: |
-              cd wms-frontend
-              npm run build
-            displayName: Build Angular app (production)
+    - task: ArchiveFiles@2
+      displayName: Create backend ZIP package
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/backend'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: '$(Build.ArtifactStagingDirectory)/backend/wms-api.zip'
+        replaceExistingArchive: true
 
-          - task: PublishBuildArtifacts@1
-            displayName: Upload frontend artifacts
-            inputs:
-              PathtoPublish: wms-frontend/dist
-              ArtifactName: frontend-drop
+    - task: PublishBuildArtifacts@1
+      displayName: Upload backend artifacts
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/backend'
+        ArtifactName: backend-drop
+
+
+# ─────────────────────────────────────────────────────
+# FRONTEND STAGE
+# ─────────────────────────────────────────────────────
+- stage: Frontend
+  displayName: 🎨 Frontend Build
+
+  jobs:
+  - job: BuildFrontend
+    displayName: Build Angular Application
+
+    steps:
+
+    - task: UseNode@1
+      displayName: Install Node.js 22.x
+      inputs:
+        version: '22.x'
+
+    - script: |
+        cd wms-frontend
+        npm install
+      displayName: Install npm packages
+
+    - script: |
+        cd wms-frontend
+        npm run build
+      displayName: Build Angular app
+
+    - task: PublishBuildArtifacts@1
+      displayName: Upload frontend artifacts
+      inputs:
+        PathtoPublish: 'wms-frontend/dist'
+        ArtifactName: frontend-drop
 
 
 # ─────────────────────────────────────────────────────
 # BACKEND DEPLOYMENT STAGE
 # ─────────────────────────────────────────────────────
-  - stage: DeployBackend
-    displayName: 🚀 Deploy Backend
-    dependsOn: Backend
+- stage: DeployBackend
+  displayName: 🚀 Deploy Backend
+  dependsOn: Backend
 
-    jobs:
-      - job: DeployAPI
-        displayName: Deploy WMS API
+  jobs:
+  - deployment: DeployAPI
+    displayName: Deploy WMS API
+    environment: Production
 
-        steps:
+    strategy:
+      runOnce:
+        deploy:
+          steps:
 
           - download: current
             artifact: backend-drop
@@ -119,4 +142,4 @@ stages:
             inputs:
               azureSubscription: 'AzureConnection'
               appName: 'wms-api-mrunal'
-              package: '$(Pipeline.Workspace)/backend-drop/*.zip'
+              package: '$(Pipeline.Workspace)/backend-drop/wms-api.zip'
