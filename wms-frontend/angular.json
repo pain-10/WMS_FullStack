@@ -61,7 +61,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/web.config"
             ],
             "styles": ["src/material-theme.scss", "src/styles.css"]
           },
