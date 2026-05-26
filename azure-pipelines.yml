@@ -134,10 +134,10 @@ stages:
       artifact: frontend-drop
 
     - task: AzureWebApp@1
-      displayName: Deploy to wms-webapp
+      displayName: 'Deploy Frontend to Azure App Service'
       inputs:
         azureSubscription: 'AzureConnection'
-        appName: 'wms-webapp'
+        appName: 'wms-frontend-eeb2a5e5gdaybgaq'
         package: '$(Pipeline.Workspace)/frontend-drop'
 
 
@@ -158,8 +158,8 @@ stages:
       artifact: backend-drop
 
     - task: AzureWebApp@1
-      displayName: Deploy API to Azure App Service
+      displayName: 'Deploy Backend API to Azure App Service'
       inputs:
         azureSubscription: 'AzureConnection'
-        appName: 'wms-api-mrunal'
+        appName: 'wms-api-mrunal-e8awhsawexaeh2gx'
         package: '$(Pipeline.Workspace)/backend-drop/wms-api.zip'
