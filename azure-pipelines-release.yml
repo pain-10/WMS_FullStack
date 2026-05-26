@@ -1,0 +1,110 @@
+# Release/CD Pipeline for WMS
+# Triggered when the CI pipeline publishes artifacts
+# Deploys to Azure App Services
+
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: ci
+      source: 'WMS CI'
+      trigger:
+        branches:
+          include:
+            - main
+
+variables:
+  azureSubscription: 'AzureConnection'
+  frontendAppName: 'wms-frontend'
+  backendAppName: 'wms-api-mrunal'
+  frontendPackage: '$(Pipeline.Workspace)/ci/frontend-drop'
+  backendPackage: '$(Pipeline.Workspace)/ci/backend-drop/wms-api.zip'
+
+stages:
+
+# ─────────────────────────────────────────────────────
+# DEPLOY TO DEVELOPMENT
+# ─────────────────────────────────────────────────────
+- stage: DeployDev
+  displayName: Deploy to Development
+  dependsOn: []
+  condition: succeeded()
+
+  jobs:
+  - deployment: DeployFrontend
+    displayName: Deploy Frontend
+    environment: 'dev'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: ci
+            artifact: frontend-drop
+
+          - task: AzureWebApp@1
+            displayName: Deploy Angular App
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appName: $(frontendAppName)
+              package: $(frontendPackage)
+
+  - deployment: DeployBackend
+    displayName: Deploy Backend API
+    environment: 'dev'
+    dependsOn: []
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: ci
+            artifact: backend-drop
+
+          - task: AzureWebApp@1
+            displayName: Deploy .NET API
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appName: $(backendAppName)
+              package: $(backendPackage)
+
+# ─────────────────────────────────────────────────────
+# DEPLOY TO PRODUCTION (with approval gate)
+# ─────────────────────────────────────────────────────
+- stage: DeployProd
+  displayName: Deploy to Production
+  dependsOn: DeployDev
+  condition: succeeded()
+
+  jobs:
+  - deployment: DeployFrontendProd
+    displayName: Deploy Frontend to Production
+    environment: 'prod'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: ci
+            artifact: frontend-drop
+
+          - task: AzureWebApp@1
+            displayName: Deploy Angular App
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appName: $(frontendAppName)
+              package: $(frontendPackage)
+
+  - deployment: DeployBackendProd
+    displayName: Deploy Backend API to Production
+    environment: 'prod'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: ci
+            artifact: backend-drop
+
+          - task: AzureWebApp@1
+            displayName: Deploy .NET API
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appName: $(backendAppName)
+              package: $(backendPackage)
